@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soon - Researcher Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* 
+        COLOR CUSTOMIZATION:
+        Change these CSS variables to modify the entire color scheme.
+        - --bg-primary: Main background (pure black for OLED)
+        - --bg-card: Card backgrounds (slightly lighter than pure black)
+        - --text-primary: Main text color
+        - --text-secondary: Secondary/muted text
+        - --accent: Accent color for highlights and borders
+        - --border: Border color for subtle divisions
+        */
+        :root {
+            --bg-primary: #000000;      /* Pure black for OLED screens */
+            --bg-card: #0A0A0A;         /* Slightly lighter for cards */
+            --text-primary: #FFFFFF;    /* Primary text color */
+            --text-secondary: #B0B0B0;  /* Secondary text color */
+            --accent: #00D9FF;          /* Cyan accent - change to your preference */
+            --border: #1A1A1A;          /* Subtle border color */
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 
+        NAVIGATION BAR:
+        - Modify padding in .nav-content for spacing
+        - Change nav background opacity if needed
+        - Adjust font-size in .nav-links for link sizes
+        */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        /* 
+        HERO SECTION:
+        - Change font sizes in h1 and .subtitle for different emphasis
+        - Modify min-height for taller/shorter hero
+        - Adjust margin-top to account for fixed nav
+        */
+        .hero {
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 2rem;
+            margin-top: 80px;
+        }
+
+        .hero h1 {
+            font-size: 5rem;              /* Change for larger/smaller name */
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 1rem;
+        }
+
+        .hero .subtitle {
+            font-size: 1.8rem;            /* Change for larger/smaller subtitle */
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .hero .accent-line {
+            width: 200px;                 /* Change width of accent line */
+            height: 4px;                  /* Change thickness of line */
+            background: var(--accent);
+            margin: 0 auto;
+        }
+
+        /* 
+        ABOUT SECTION:
+        - Replace portrait-placeholder with <img> tag for your photo
+        - Adjust .portrait size (width/height) for different photo size
+        - Modify .about-text max-width for paragraph width
+        - Change font-size in .about-text p for text size
+        */
+        .about {
+            max-width: 1400px;
+            margin: 4rem auto;
+            padding: 0 3rem;
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        .portrait {
+            width: 200px;                 /* Change portrait size */
+            height: 200px;
+            border-radius: 50%;
+            border: 3px solid var(--accent);  /* Change border thickness/color */
+            background: var(--bg-card);
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        /* 
+        TO ADD YOUR PHOTO:
+        Replace the .portrait-placeholder div with:
+        <img src="your-photo.jpg" alt="Your Name" class="portrait">
+        */
+        .portrait-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--bg-card) 0%, #151515 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .about-text {
+            flex: 1;
+            max-width: 800px;             /* Change for wider/narrower text */
+        }
+
+        .about-text p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;            /* Change for larger/smaller text */
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        /* 
+        SECTION STYLING:
+        - Adjust padding for more/less spacing between sections
+        - Change max-width for wider/narrower content areas
+        */
+        section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 5rem 3rem;
+        }
+
+        .section-title {
+            font-size: 3rem;              /* Change section title size */
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 4rem;
+            letter-spacing: -0.5px;
+        }
+
+        /* 
+        RESEARCH CARDS GRID:
+        - Change grid-template-columns for different card layouts:
+          - 3 cards: repeat(3, 1fr)
+          - 2 cards: repeat(2, 1fr)
+        - Adjust gap for spacing between cards
+        - Modify card padding for card size
+        */
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);  /* Change number of columns */
+            gap: 2rem;                              /* Change spacing between cards */
+        }
+
+        .research-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 2.5rem;              /* Change card padding */
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .research-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);  /* Change hover lift amount */
+        }
+
+        .research-card .icon {
+            font-size: 3rem;              /* Change icon size */
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .research-card h3 {
+            font-size: 1.3rem;            /* Change card title size */
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+
+        /* 
+        PUBLICATIONS SECTION:
+        - Modify .publication padding for card height
+        - Change font sizes for title/venue/authors
+        - Adjust margin-bottom for spacing between publications
+        */
+        .publication {
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;                /* Change publication card padding */
+            margin-bottom: 1.5rem;        /* Change spacing between publications */
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .publication:hover {
+            border-color: var(--accent);
+            transform: translateX(5px);
+        }
+
+        .publication h3 {
+            font-size: 1.2rem;            /* Change publication title size */
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .publication .venue {
+            color: var(--accent);
+            font-size: 0.95rem;           /* Change venue text size */
+            margin-bottom: 0.5rem;
+        }
+
+        .publication .authors {
+            color: var(--text-secondary);
+            font-size: 0.9rem;            /* Change authors text size */
+        }
+
+        /* 
+        ABSTRACT HOVER EFFECT:
+        - Change opacity for fade effect
+        - Modify padding for abstract spacing
+        - Adjust font-size for abstract text
+        */
+        .publication .abstract {
+            color: var(--text-secondary);
+            font-size: 0.95rem;           /* Change abstract text size */
+            line-height: 1.6;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            opacity: 0;                   /* Hidden by default */
+            max-height: 0;
+            overflow: hidden;
+            transition: opacity 0.4s ease, max-height 0.4s ease, margin-top 0.4s ease;
+        }
+
+        .publication:hover .abstract {
+            opacity: 1;                   /* Visible on hover */
+            max-height: 500px;            /* Adjust for longer abstracts */
+        }
+
+        /* 
+        CONTACT SECTION:
+        - Modify .contact-grid gap for button spacing
+        - Change button padding for size
+        - Adjust font-size for button text
+        */
+        .contact-content {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);  /* Change for different layout */
+            gap: 1.5rem;                            /* Change button spacing */
+            margin-top: 3rem;
+        }
+
+        .contact-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 1rem;              /* Change button text size */
+            padding: 1.2rem 2rem;         /* Change button size */
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: block;
+        }
+
+        .contact-link:hover {
+            color: var(--text-primary);
+            border-color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        /* 
+        FOOTER:
+        - Change padding for footer spacing
+        - Modify font-size for footer text
+        */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border);
+            margin-top: 4rem;
+        }
+
+        footer p {
+            font-size: 0.9rem;            /* Change footer text size */
+        }
+
+        /* 
+        RESPONSIVE DESIGN:
+        - Adjust breakpoint (768px) for mobile/tablet
+        - Modify grid columns for mobile layout
+        */
+        @media (max-width: 768px) {
+            .nav-content {
+                padding: 1rem 1.5rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .about {
+                flex-direction: column;
+                text-align: center;
+                padding: 0 1.5rem;
+            }
+
+            .research-grid {
+                grid-template-columns: 1fr;  /* Single column on mobile */
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr 1fr;  /* Two columns on mobile */
+            }
+
+            section {
+                padding: 3rem 1.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+    NAVIGATION:
+    - Update logo text
+    - Add/remove navigation links as needed
+    - Links use anchor tags (#) for smooth scrolling to sections
+    -->
+    <nav>
+        <div class="nav-content">
+            <div class="logo">SOON</div>  <!-- Change your name here -->
+            <ul class="nav-links">
+                <li><a href="#research">Research</a></li>
+                <li><a href="#publications">Publications</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <!-- Add more nav links here if needed -->
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 
+    HERO SECTION:
+    - Update h1 with your name
+    - Update subtitle with your title/position
+    -->
+    <section class="hero">
+        <h1>Soon</h1>  <!-- Change to your name -->
+        <p class="subtitle">Privacy-Preserving Machine Learning</p>  <!-- Change to your title -->
+        <div class="accent-line"></div>
+    </section>
+
+    <!-- 
+    ABOUT SECTION:
+    - Replace portrait-placeholder div with your actual photo
+    - Update paragraph text with your bio
+    - To use your photo: <img src="your-photo.jpg" alt="Your Name" class="portrait">
+    -->
+    <div class="about">
+        <div class="portrait">
+            <div class="portrait-placeholder">
+                Add Your Photo Here
+            </div>
+            <!-- TO ADD YOUR PHOTO, replace above div with:
+            <img src="your-photo.jpg" alt="Your Name" style="width: 100%; height: 100%; object-fit: cover;">
+            -->
+        </div>
+        <div class="about-text">
+            <p>
+                I am a researcher specializing in differential privacy and privacy-preserving machine learning. 
+                My work focuses on developing novel approaches for federated learning, adaptive mechanisms, 
+                and privacy accounting methods.
+            </p>
+            <p>
+                I am particularly interested in creating practical solutions that balance strong privacy 
+                guarantees with model performance and utility.
+            </p>
+            <!-- Add or remove paragraphs as needed -->
+        </div>
+    </div>
+
+    <!-- 
+    RESEARCH SECTION:
+    - Update section title
+    - Modify research cards: change icons (emoji), titles, or add/remove cards
+    - To add a card, copy the entire .research-card div
+    -->
+    <section id="research">
+        <h2 class="section-title">Research Focus</h2>  <!-- Change section title -->
+        <div class="research-grid">
+            <!-- Research Card 1 -->
+            <div class="research-card">
+                <span class="icon">🔒</span>  <!-- Change emoji icon -->
+                <h3>Differential<br>Privacy</h3>  <!-- Change title -->
+            </div>
+            <!-- Research Card 2 -->
+            <div class="research-card">
+                <span class="icon">🌐</span>
+                <h3>Federated<br>Learning</h3>
+            </div>
+            <!-- Research Card 3 -->
+            <div class="research-card">
+                <span class="icon">⚡</span>
+                <h3>Adaptive<br>Mechanisms</h3>
+            </div>
+            <!-- Research Card 4 -->
+            <div class="research-card">
+                <span class="icon">🔬</span>
+                <h3>Privacy<br>Accounting</h3>
+            </div>
+            <!-- To add more cards, copy a card div here -->
+        </div>
+    </section>
+
+    <!-- 
+    PUBLICATIONS SECTION:
+    - Update section title
+    - For each publication, update: title (h3), venue, and authors
+    - To add a publication, copy the entire .publication div
+    -->
+    <section id="publications">
+        <h2 class="section-title">Selected Publications</h2>  <!-- Change section title -->
+        
+        <!-- Publication 1 -->
+        <div class="publication">
+            <h3>Adaptive Parameter Grouping for Differential Privacy</h3>  <!-- Change title -->
+            <p class="venue">Under Review • 2025</p>  <!-- Change venue/conference -->
+            <p class="authors">Soon et al.</p>  <!-- Change authors -->
+            <p class="abstract">
+                We propose an importance-based parameter grouping approach for DP-SGD that divides model parameters into groups based on gradient magnitudes and applies different clipping thresholds. This method preserves critical gradient information while maintaining strong privacy guarantees, demonstrating improved performance on CIFAR-10 benchmarks.
+            </p>  <!-- Add your abstract here -->
+        </div>
+
+        <!-- Publication 2 -->
+        <div class="publication">
+            <h3>Mixed Perturbation Mechanisms for Private Frequency</h3>
+            <p class="venue">PPML Workshop • 2024</p>
+            <p class="authors">Soon et al.</p>
+            <p class="abstract">
+                A theoretical framework for combining multiple perturbation methods probabilistically in differential privacy, with applications to frequency estimation tasks. We analyze privacy guarantees under composition and demonstrate practical utility improvements in distributed learning scenarios with varying domain sizes.
+            </p>
+        </div>
+
+        <!-- Publication 3 -->
+        <div class="publication">
+            <h3>Privacy-Preserving Fine-tuning for Large Language Models</h3>
+            <p class="venue">FedLearn Conference • 2024</p>
+            <p class="authors">Soon et al.</p>
+            <p class="abstract">
+                Integration of LoRA-based parameter-efficient fine-tuning with client-side differential privacy in federated learning systems. We demonstrate practical privacy-utility tradeoffs on GLUE benchmark tasks using RoBERTa, achieving competitive performance while providing formal privacy guarantees for client data.
+            </p>
+        </div>
+
+        <!-- 
+        To add more publications with abstracts, copy this template:
+        <div class="publication">
+            <h3>Your Paper Title</h3>
+            <p class="venue">Conference • Year</p>
+            <p class="authors">Authors</p>
+            <p class="abstract">Your abstract text here</p>
+        </div>
+        -->
+    </section>
+
+    <!-- 
+    CONTACT SECTION:
+    - Update section title
+    - Update contact links with your actual URLs
+    - Add/remove contact buttons as needed
+    -->
+    <section id="contact">
+        <div class="contact-content">
+            <h2 class="section-title">Get in Touch</h2>  <!-- Change section title -->
+            <div class="contact-grid">
+                <!-- Update href with your actual links -->
+                <a href="/cdn-cgi/l/email-protection#225b4d57500c474f434b4e62574c4b544750514b565b0c474657" class="contact-link">Email</a>
+                <a href="https://scholar.google.com/your-profile" class="contact-link">Google Scholar</a>
+                <a href="https://github.com/yourusername" class="contact-link">GitHub</a>
+                <a href="https://twitter.com/yourusername" class="contact-link">Twitter</a>
+                <!-- Add more contact links here if needed -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 
+    FOOTER:
+    - Update copyright year and name
+    -->
+    <footer>
+        <p>&copy; 2025 Soon</p>  <!-- Change year and name -->
+    </footer>
+
+    <!-- 
+    JAVASCRIPT:
+    - Handles smooth scrolling for navigation
+    - Can be removed if not needed
+    -->
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        beh
